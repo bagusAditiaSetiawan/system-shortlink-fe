@@ -1,17 +1,18 @@
-'use client'
 import DataTable from "react-data-table-component";
 import React, {useCallback, useEffect, useState} from "react";
-import TableHeader from "@/app/admin/shortlink/table_header";
-import TableColumnPage from "@/app/admin/shortlink/table_column";
+import TableHeader from "./table_header";
+import TableColumnPage from "./table_column";
 import {
     ShortedLinkItem,
     ShortedLinkPaginationParams,
     shortedLinkService
-} from "@/services/shorted_link/shorted_link_service";
-import {GetAccessToken} from "@/services/token/token_service";
+} from "./../../../services/shorted_link/shorted_link_service";
+import {GetAccessToken} from "../../../services/token/token_service.tsx";
+import {useLocation} from "react-router-dom";
 
 export default function TablePage() {
     const accessToken = GetAccessToken()
+    const location = useLocation();
     const [total, setTotal] = useState<number>(0)
     const [data, setData] = useState<ShortedLinkItem[]>([])
     const [filter, setFilter] = useState<ShortedLinkPaginationParams>({
@@ -21,7 +22,7 @@ export default function TablePage() {
     })
     const handleTableShortedLink = useCallback(() => {
         shortedLinkService.paginate(filter, accessToken).then(res => {
-            setData(data => res.data)
+            setData(res.data)
             setTotal(res.total)
         })
     }, [accessToken, filter])
@@ -31,7 +32,7 @@ export default function TablePage() {
             handleTableShortedLink()
         }, 2000)
         return () => clearTimeout(timeout)
-    }, [handleTableShortedLink, accessToken, filter])
+    }, [handleTableShortedLink, accessToken, filter, location.pathname])
 
     const subHeaderComponentMemo = React.useMemo(() => {
         return (<div><input onChange={(e) => setFilter(item => ({

@@ -1,5 +1,5 @@
 import {TableColumn} from "react-data-table-component";
-import {ShortedLinkItem} from "@/services/shorted_link/shorted_link_service";
+import {ShortedLinkItem} from "../../../services/shorted_link/shorted_link_service.tsx";
 
 export default function TableColumnPage() {
     const columns: TableColumn<ShortedLinkItem>[] = [

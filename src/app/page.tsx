@@ -1,16 +1,15 @@
 "use client"
-import Link from "next/link";
-import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
-import {authService} from "@/services/auth/auth_service_impl";
 import Swal from "sweetalert2";
-import {GetAccessToken} from "@/services/token/token_service";
+import {GetAccessToken} from "../services/token/token_service.tsx";
+import {Link, redirect, useNavigate} from "react-router-dom";
+import {authService} from "../services/auth/auth_service_impl.tsx";
 
 export default function Home() {
-    const location = useRouter()
+    const navigate = useNavigate()
     useEffect(() => {
         if(GetAccessToken()) {
-            location.push("/admin/dashboard")
+            navigate("/admin/dashboard")
         }
     })
     const [email, setEmail] = useState<string>("")
@@ -35,7 +34,7 @@ export default function Home() {
                 titleText: "Success Register",
                 icon: "success"
             })
-            location.push("/login")
+            redirect("/login")
         }
     }
 
@@ -85,7 +84,7 @@ export default function Home() {
               </form>
               <div className=" text-[14px] mb-4">
                   <span className="text-gray-400">did have account?</span>
-                  <Link href="/login" className="text-blue-600"> Sign in</Link>
+                  <Link to="/login" className="text-blue-600"> Sign in</Link>
               </div>
           </div>
       </div>

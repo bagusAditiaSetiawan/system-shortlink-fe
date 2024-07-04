@@ -1,16 +1,15 @@
 "use client"
-import Link from "next/link";
-import {authService} from "@/services/auth/auth_service_impl";
 import {useEffect, useState} from "react";
 import Swal from "sweetalert2"
-import {useRouter} from "next/navigation";
-import {GetAccessToken} from "@/services/token/token_service";
+import {Link, useNavigate} from "react-router-dom";
+import {GetAccessToken} from "../../services/token/token_service.tsx";
+import {authService} from "../../services/auth/auth_service_impl.tsx";
 
 export default function Login() {
-    const location = useRouter()
+    const navigate = useNavigate();
     useEffect(() => {
         if(GetAccessToken()) {
-            location.push("/admin/dashboard")
+            navigate("/admin/dashboard")
         }
     })
     const [username, setUsername] = useState("")
@@ -34,7 +33,7 @@ export default function Login() {
                 titleText: "Success login",
                 icon: "success"
             })
-            location.push("/admin/dashboard")
+            navigate("/admin/dashboard")
         }
     }
     return (
@@ -72,7 +71,7 @@ export default function Login() {
             </form>
             <div className=" text-[14px] mb-4">
                 <span className="text-gray-400">Don&apos;t have account?</span>
-                <Link href="/" className="text-blue-600"> Sign up</Link>
+                <Link to="/" className="text-blue-600"> Sign up</Link>
             </div>
 
         </div>

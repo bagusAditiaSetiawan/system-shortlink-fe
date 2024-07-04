@@ -1,13 +1,13 @@
 import {
-    AuthService,
+    AuthService, Profile, ResponseGetProfile, ResponseGetProfileSuccess,
     ResponseSignIn,
     ResponseSignInSuccess,
     ResponseSignUp, ResponseSignUpSuccess,
     SignInPayload,
     SignUpPayload
-} from "@/services/auth/auth_service";
+} from "./auth_service";
 import {AxiosInstance} from "axios";
-import {client_request, ResponseError} from "@/services/client_request";
+import {client_request, ResponseError} from "./../client_request";
 
 class AuthServiceImpl implements AuthService {
     client_request: AxiosInstance
@@ -38,6 +38,23 @@ class AuthServiceImpl implements AuthService {
             return ({
                 errorMessage: errorResponse.errors,
                 username: "",
+            })
+        })
+    }
+
+    async GetProfile(token: string): Promise<ResponseGetProfile> {
+        return this.client_request.get<ResponseGetProfileSuccess>("/profile", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }).then((res) => ({
+            profile: res.data.data,
+            errorMessage: [] as string[],
+        })).catch((err) => {
+            const errorResponse = err.response.data as ResponseError
+            return ({
+                profile: {} as Profile,
+                errorMessage: errorResponse.errors,
             })
         })
     }

@@ -1,5 +1,9 @@
 
 
 export function GetAccessToken(): string {
-    return typeof window !== "undefined" ? localStorage.getItem("access_token") ?? "" : "";
+    return localStorage.getItem("access_token") ?? "";
+}
+
+export function RemoveAccessToken(): void {
+    localStorage.removeItem("access_token");
 }

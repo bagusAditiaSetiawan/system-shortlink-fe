@@ -6,5 +6,5 @@ export interface ResponseError {
 
 
 export const client_request = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL
+    baseURL: import.meta.env.VITE_BASE_URL_API
 })

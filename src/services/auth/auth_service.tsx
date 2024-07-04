@@ -9,7 +9,6 @@ export interface ResponseSignUpSuccess {
     }
 }
 
-
 export interface ResponseSignIn {
     errorMessage: string[],
     access_token: string
@@ -31,7 +30,22 @@ export interface SignInPayload {
     password: string
 }
 
+export interface Profile {
+    id: number;
+    username: string;
+    email: string;
+}
+
+export interface ResponseGetProfileSuccess{
+    data: Profile
+}
+
+export interface ResponseGetProfile {
+    errorMessage: string[],
+    profile: Profile
+}
 export interface AuthService {
     SignIn(params: SignInPayload): Promise<ResponseSignIn>
     SignUp(params: SignUpPayload): Promise<ResponseSignUp>
+    GetProfile(token: string): Promise<ResponseGetProfile>
 }
