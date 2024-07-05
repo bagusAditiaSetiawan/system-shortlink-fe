@@ -12,9 +12,11 @@ export default function Login() {
             navigate("/admin/dashboard")
         }
     })
+    const [isLoading, setIsLoading] = useState(false)
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const submitHandler = async (event: React.FormEvent)  => {
+        setIsLoading(true)
         event.preventDefault()
         const res = await authService.SignIn({
             username,
@@ -35,6 +37,7 @@ export default function Login() {
             })
             navigate("/admin/dashboard")
         }
+        setIsLoading(false)
     }
     return (
       <div className="p-2 min-h-screen flex justify-center items-center sm:p-[30px]">
@@ -67,7 +70,7 @@ export default function Login() {
                             className="form-control block w-full py-[0.54rem] px-3 text-base text-body leading-relaxed bg-white border border-solid border-ghost placeholder-body focus:shadow-none focus:outline-0 focus:text-body focus:bg-white focus:border-blue-100"/>
                     </div>
                 </div>
-                <button className="font-normal text-sm text-white w-full bg-indigo-700 py-2 px-4">Sign in</button>
+                <button disabled={isLoading} className="font-normal text-sm text-white w-full bg-indigo-700 py-2 px-4">{isLoading ? "LOADING" : "SUBMIT"}</button>
             </form>
             <div className=" text-[14px] mb-4">
                 <span className="text-gray-400">Don&apos;t have account?</span>

@@ -2,7 +2,7 @@
 import {useEffect, useState} from "react";
 import Swal from "sweetalert2";
 import {GetAccessToken} from "../services/token/token_service.tsx";
-import {Link, redirect, useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {authService} from "../services/auth/auth_service_impl.tsx";
 
 export default function Home() {
@@ -12,11 +12,13 @@ export default function Home() {
             navigate("/admin/dashboard")
         }
     })
+    const [isLoading, setIsLoading] = useState(false)
     const [email, setEmail] = useState<string>("")
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const submitHandler = async (event: React.FormEvent)  => {
         event.preventDefault()
+        setIsLoading(true)
         const res = await authService.SignUp({
             username,
             password,
@@ -34,8 +36,9 @@ export default function Home() {
                 titleText: "Success Register",
                 icon: "success"
             })
-            redirect("/login")
+            navigate("/login")
         }
+        setIsLoading(false)
     }
 
     return (
@@ -80,7 +83,7 @@ export default function Home() {
                               className="form-control block w-full py-[0.54rem] px-3 text-base text-body leading-relaxed bg-white border border-solid border-ghost placeholder-body focus:shadow-none focus:outline-0 focus:text-body focus:bg-white focus:border-blue-100"/>
                       </div>
                   </div>
-                  <button className="font-normal text-sm text-white w-full bg-indigo-700 py-2 px-4">SUBMIT</button>
+                  <button disabled={isLoading} className="font-normal text-sm text-white w-full bg-indigo-700 py-2 px-4">{isLoading ? 'LOADING' : 'SUBMIT'}</button>
               </form>
               <div className=" text-[14px] mb-4">
                   <span className="text-gray-400">did have account?</span>

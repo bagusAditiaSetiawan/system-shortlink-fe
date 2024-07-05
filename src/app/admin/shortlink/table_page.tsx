@@ -30,7 +30,7 @@ export default function TablePage() {
     useEffect(() => {
         const timeout = setTimeout(() => {
             handleTableShortedLink()
-        }, 2000)
+        }, 100)
         return () => clearTimeout(timeout)
     }, [handleTableShortedLink, accessToken, filter, location.pathname])
 
@@ -53,5 +53,5 @@ export default function TablePage() {
     } subHeaderComponent={subHeaderComponentMemo} onChangePage={page => setFilter(item => ({
         ...item,
         page
-    }))} pagination paginationPerPage={filter.limit} paginationTotalRows={total} persistTableHead title={<TableHeader/>} columns={TableColumnPage()} data={data}/>;
+    }))} pagination paginationServer={true}  paginationPerPage={filter.limit} paginationTotalRows={total} persistTableHead title={<TableHeader/>} columns={TableColumnPage()} data={data}/>;
 }
